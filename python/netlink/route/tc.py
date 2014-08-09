@@ -81,11 +81,13 @@ class Handle(object):
     def isroot(self):
         return self._val == TC_H_ROOT or self._val == TC_H_INGRESS
 
+
 class TcCache(netlink.Cache):
     """Cache of traffic control object"""
 
     def __getitem__(self, key):
         raise NotImplementedError()
+
 
 class Tc(netlink.Object):
     def __cmp__(self, other):
@@ -227,6 +229,7 @@ class Tc(netlink.Object):
     def stats(fmt):
         return fmt.nl('{t|packets} {t|bytes} {t|qlen}')
 
+
 class QdiscCache(netlink.Cache):
     """Cache of qdiscs"""
 
@@ -255,6 +258,7 @@ class QdiscCache(netlink.Cache):
     @staticmethod
     def _new_cache(cache):
         return QdiscCache(cache=cache)
+
 
 class Qdisc(Tc):
     """Queueing discipline"""
@@ -390,6 +394,7 @@ class Qdisc(Tc):
 
         return buf
 
+
 class TcClassCache(netlink.Cache):
     """Cache of traffic classes"""
 
@@ -407,6 +412,7 @@ class TcClassCache(netlink.Cache):
 
     def _new_cache(self, cache):
         return TcClassCache(self.arg1, cache=cache)
+
 
 class TcClass(Tc):
     """Traffic Class"""
@@ -459,6 +465,7 @@ class TcClass(Tc):
 
         return buf
 
+
 class ClassifierCache(netlink.Cache):
     """Cache of traffic classifiers objects"""
 
@@ -477,6 +484,7 @@ class ClassifierCache(netlink.Cache):
 
     def _new_cache(self, cache):
         return ClassifierCache(self.arg1, self.arg2, cache=cache)
+
 
 class Classifier(Tc):
     """Classifier"""
@@ -537,6 +545,7 @@ class Classifier(Tc):
 
 _qdisc_cache = QdiscCache()
 
+
 def get_qdisc(ifindex, handle=None, parent=None):
     l = []
 
@@ -554,6 +563,7 @@ def get_qdisc(ifindex, handle=None, parent=None):
     return l
 
 _class_cache = {}
+
 
 def get_class(ifindex, parent, handle=None):
     l = []
@@ -577,6 +587,7 @@ def get_class(ifindex, parent, handle=None):
 
 _cls_cache = {}
 
+
 def get_cls(ifindex, parent, handle=None):
 
     chain = _cls_cache.get(ifindex, dict())
@@ -590,6 +601,6 @@ def get_cls(ifindex, parent, handle=None):
     cache.refill()
 
     if handle is None:
-        return [ cls for cls in cache ]
+        return [cls for cls in cache]
 
-    return [ cls for cls in cache if cls.handle == handle ]
+    return [cls for cls in cache if cls.handle == handle]
