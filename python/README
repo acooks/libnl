@@ -10,3 +10,7 @@ For the brave:
   (requires an installed libnl)
   - $ python ./setup.py build
   - $ sudo python ./setup.py install
+
+Dependencies:
+  - swig
+  - python3-devel / python-devel
